@@ -1,7 +1,7 @@
 <?php
 //Protocol Corporation Ltda.
 //https://github.com/ProtocolLive
-//2022.05.30.03
+//2022.05.30.04
 
 /**
  * https://core.telegram.org/mtproto/mtproto-transports
@@ -170,8 +170,14 @@ class MtprotoBasics{
 
   public static function StringEncode(string $Data):string{
     $count = strlen($Data);
-    $count = dechex($count);
-    $count = self::SafeHex($count);
+    if($count < 254):
+      $count = dechex($count);
+      $count = self::SafeHex($count);
+    else:
+      $count = dechex($count);
+      $count = str_pad($count, 8, 0, STR_PAD_LEFT);
+      $count = self::InvertEndian($count);
+    endif;
     $Data = $count . bin2hex($Data);
     $Data = str_split($Data, 8);
     foreach($Data as &$block):
