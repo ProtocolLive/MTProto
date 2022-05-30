@@ -1,7 +1,7 @@
 <?php
 //Protocol Corporation Ltda.
 //https://github.com/ProtocolLive
-//2022.05.30.02
+//2022.05.30.03
 
 /**
  * https://core.telegram.org/mtproto/mtproto-transports
@@ -131,6 +131,9 @@ class MtprotoBasics{
       exit('Nenhuma resposta');
     endif;
     $this->HexDebug(bin2hex($return), 'Received:');
+    if($return === ''):
+      return;
+    endif;
     if($return[0] === chr(1)):
       $return = unpack('l', substr($return, 1));
       var_dump(~$return[1]);
