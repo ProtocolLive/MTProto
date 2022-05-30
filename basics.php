@@ -1,7 +1,7 @@
 <?php
 //Protocol Corporation Ltda.
 //https://github.com/ProtocolLive
-//2022.05.30.04
+//2022.05.30.05
 
 /**
  * https://core.telegram.org/mtproto/mtproto-transports
@@ -144,6 +144,22 @@ class MtprotoBasics{
    * @link https://core.tlgr.org/mtproto/samples-auth_key
    */
   protected function Send(string $Msg):int|false{
+    if($this->Transport === MtprotoTransport::Abridged):
+      $count = strlen($Msg);
+      if($count % 4 !== 0):
+        exit('Size error');
+      endif;
+      $count /= 4;
+      $count = dechex($count);
+      $count = self::SafeHex($count);
+      $Msg = 'ef' . $count . $Msg;
+    elseif($this->Transport === MtprotoTransport::Intermediate):
+      $count = strlen($Msg);
+      $count = dechex($count);
+      $count = str_pad($count, 8, 0, STR_PAD_LEFT);
+      $count = self::InvertEndian($count);
+      $Msg = 'eeeeeeee' . $count . $Msg;
+    endif;
     $this->HexDebug($Msg, 'Sending:');
     $Msg = hex2bin($Msg);
     if($this->Test):
