@@ -1,7 +1,7 @@
 <?php
 //Protocol Corporation Ltda.
 //https://github.com/ProtocolLive
-//2022.05.30.01
+//2022.05.30.02
 
 /**
  * https://core.telegram.org/mtproto/mtproto-transports
@@ -74,7 +74,7 @@ class MtprotoBasics{
     endif;
   }
 
-  protected function HexDebug(
+  public static function HexDebug(
     string $Hex,
     string $Msg = null
   ):void{
@@ -85,14 +85,12 @@ class MtprotoBasics{
       ' | ' . implode(' ', $n);
     endforeach;
     $Hex = implode(PHP_EOL, $Hex);
-    var_dump(
-      $Msg . PHP_EOL .
+    echo $Msg . PHP_EOL .
       '   | 00 01 02 03 04 05 06 07 08 09 0a 0b 0c 0d 0e 0f' .
       PHP_EOL .
       '---+------------------------------------------------' .
       PHP_EOL .
-      $Hex
-    );
+      $Hex . PHP_EOL . PHP_EOL;
   }
 
   public static function InvertEndian(string $Hex):string{
