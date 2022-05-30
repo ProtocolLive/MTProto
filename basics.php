@@ -1,7 +1,7 @@
 <?php
 //Protocol Corporation Ltda.
 //https://github.com/ProtocolLive
-//2022.05.30.00
+//2022.05.30.01
 
 /**
  * https://core.telegram.org/mtproto/mtproto-transports
@@ -24,12 +24,14 @@ const MtprotoObjects = [
 class MtprotoBasics{
   private Socket $Connection;
   private MtprotoTransport $Transport;
+  private bool $Test;
 
   public function __construct(
     MtprotoTransport $Transport = MtprotoTransport::Abridged,
     bool $Test = false
   ){
     $this->Transport = $Transport;
+    $this->Test = $Test;
     $temp = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
     if($temp === false):
       throw new Exception(socket_strerror(socket_last_error()), socket_last_error());
