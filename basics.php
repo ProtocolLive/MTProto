@@ -1,16 +1,11 @@
 <?php
 //Protocol Corporation Ltda.
 //https://github.com/ProtocolLive
-//2022.05.28.00
+//2022.05.30.00
 
 /**
- * Codes in little endian
+ * https://core.telegram.org/mtproto/mtproto-transports
  */
-enum MtprotoMethods:string{
-  case BotImportAuth = '2cffa367';
-  case UsersGet = 'f5d5842d';
-}
-
 enum MtprotoTransport:string{
   case Abridged = 'ef';
   case Full = '';
