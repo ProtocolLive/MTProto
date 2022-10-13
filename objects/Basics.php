@@ -1,7 +1,7 @@
 <?php
 //Protocol Corporation Ltda.
 //https://github.com/ProtocolLive
-//2022.10.13.00
+//2022.10.13.01
 
 namespace ProtocolLive\Mtproto;
 use \Exception;
@@ -114,7 +114,7 @@ class Basics{
       $return = $response;
     endif;
     if($return === false):
-      exit('Nenhuma resposta');
+      exit('None returned');
     endif;
     $this->HexDebug(bin2hex($return), 'Received:');
     if($return === ''):
