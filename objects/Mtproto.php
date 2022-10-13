@@ -1,7 +1,7 @@
 <?php
 //Protocol Corporation Ltda.
 //https://github.com/ProtocolLive
-//2022.10.13.02
+//2022.10.13.03
 
 namespace ProtocolLive\Mtproto;
 
@@ -46,8 +46,8 @@ class Mtproto extends Basics{
 
   public function PqMultiRequire(
     string $Nonce
-    $auth_key_id = str_repeat(0, 8);
   ):void{
+    $auth_key_id = str_repeat(0, 16);
     $message_id = microtime(true) * pow(2, 32);
     $message_id = dechex($message_id);
     $message_id = $this->InvertEndian($message_id);
