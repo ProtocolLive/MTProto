@@ -1,7 +1,7 @@
 <?php
 //Protocol Corporation Ltda.
 //https://github.com/ProtocolLive
-//2022.10.13.02
+//2022.10.13.03
 
 namespace ProtocolLive\Mtproto;
 use \Exception;
@@ -138,13 +138,13 @@ class Basics{
       $count /= 4;
       $count = dechex($count);
       $count = self::SafeHex($count);
-      $Msg = 'ef' . $count . $Msg;
+      $Msg = Transport::Abridged->value . $count . $Msg;
     elseif($this->Transport === Transport::Intermediate):
       $count = strlen($Msg);
       $count = dechex($count);
       $count = str_pad($count, 8, 0, STR_PAD_LEFT);
       $count = self::InvertEndian($count);
-      $Msg = 'eeeeeeee' . $count . $Msg;
+      $Msg = Transport::Intermediate->value . $count . $Msg;
     endif;
     $this->HexDebug($Msg, 'Sending:');
     $Msg = hex2bin($Msg);
