@@ -1,7 +1,7 @@
 <?php
 //Protocol Corporation Ltda.
 //https://github.com/ProtocolLive
-//2022.10.13.01
+//2022.10.13.02
 
 namespace ProtocolLive\Mtproto;
 use \Exception;
@@ -159,7 +159,7 @@ class Basics{
       $key .= '9QIDAQAB' . PHP_EOL;
       $key .= '-----END PUBLIC KEY-----';
     endif;
-    //openssl_public_encrypt($Msg, $Msg, $key);
+    openssl_public_encrypt($Msg, $Msg, $key);
     return socket_write($this->Connection, $Msg, strlen($Msg));
   }
 
