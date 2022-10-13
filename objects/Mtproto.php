@@ -1,7 +1,7 @@
 <?php
 //Protocol Corporation Ltda.
 //https://github.com/ProtocolLive
-//2022.10.13.01
+//2022.10.13.02
 
 namespace ProtocolLive\Mtproto;
 
@@ -37,7 +37,7 @@ class Mtproto extends Basics{
     $Payload .= $this->StringEncode($Token);
   
     //$this->DebugHex($Payload);
-    $count = $this->Count($Payload, true, true) or exit('Contagem errada');
+    $count = $this->Count($Payload, true, true) or exit('Wrong count');
     $msg = 'ef' . $count . $Payload;
     $this->PayloadParse($msg);
     $this->Send($msg);
