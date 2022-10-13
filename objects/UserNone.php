@@ -5,10 +5,8 @@
 
 namespace ProtocolLive\Mtproto;
 
-class User{
+class UserNone{
   public readonly int $Id;
-  public readonly string $Name;
-  public readonly string $NameLast;
 
   public function __construct(string $Data){
     

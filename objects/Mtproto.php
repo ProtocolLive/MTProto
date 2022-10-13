@@ -1,14 +1,14 @@
 <?php
 //Protocol Corporation Ltda.
 //https://github.com/ProtocolLive
-//2022.05.30.00
+//2022.10.13.00
 
-require(__DIR__ . '/requires.php');
+namespace ProtocolLive\Mtproto;
 
-class Mtproto extends MtprotoBasics{
+class Mtproto extends Basics{
 
   public function __construct(
-    MtprotoTransport $Transport = MtprotoTransport::Abridged,
+    Transport $Transport = Transport::Abridged,
     bool $Test = false
   ){
     parent::__construct($Transport, $Test);
@@ -24,7 +24,7 @@ class Mtproto extends MtprotoBasics{
     string $ApiHash,
     string $Token
   ){
-    $Payload = MtprotoMethods::BotImportAuth->value;
+    $Payload = Methods::BotImportAuth->value;
     
     $Payload .= bin2hex(pack('l', $Flags));
 
@@ -51,7 +51,7 @@ class Mtproto extends MtprotoBasics{
     $message_id = microtime(true) * pow(2, 32);
     $message_id = dechex($message_id);
     $message_id = $this->InvertEndian($message_id);
-    $method = self::InvertEndian(MtProtoMethods::PqMultiRequire->value);
+    $method = self::InvertEndian(Methods::PqMultiRequire->value);
     $nonce = self::InvertEndian($Nonce);
     $count = strlen($method . $nonce) / 2;
     $count = dechex($count);

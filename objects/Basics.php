@@ -1,33 +1,19 @@
 <?php
 //Protocol Corporation Ltda.
 //https://github.com/ProtocolLive
-//2022.05.30.05
+//2022.10.13.00
 
-/**
- * https://core.telegram.org/mtproto/mtproto-transports
- */
-enum MtprotoTransport:string{
-  case Abridged = 'ef';
-  case Full = '';
-  case Intermediate = 'eeeeeeee';
-  case Padded = 'dddddddd';
-}
+namespace ProtocolLive\Mtproto;
+use \Exception;
+use \Socket;
 
-/**
- * Codes in little endian
- */
-const MtprotoObjects = [
-  'd23c81a3' => 'User',
-  'c67599d1' => 'UserNone'
-];
-
-class MtprotoBasics{
+class Basics{
   private Socket $Connection;
-  private MtprotoTransport $Transport;
+  private Transport $Transport;
   private bool $Test;
 
   public function __construct(
-    MtprotoTransport $Transport = MtprotoTransport::Abridged,
+    Transport $Transport = Transport::Abridged,
     bool $Test = false
   ){
     $this->Transport = $Transport;
@@ -55,7 +41,7 @@ class MtprotoBasics{
     bool $AsHex = true,
     bool $TransportHeader = false
   ):string|false{
-    if($this->Transport === MtprotoTransport::Abridged):
+    if($this->Transport === Transport::Abridged):
       $count = strlen($Msg) / 2;
       if($TransportHeader):
         if(($count % 4) !== 0):
@@ -101,7 +87,7 @@ class MtprotoBasics{
 
   protected function PayloadParse(string $Hex):void{
     $temp = substr($Hex, 0, 2);
-    $temp = MtprotoTransport::tryFrom($temp);
+    $temp = Transport::tryFrom($temp);
     $return = 'Transport: ' . $temp->name . PHP_EOL;
 
     $count = substr($Hex, 2, 2);
@@ -110,7 +96,7 @@ class MtprotoBasics{
     $count *= 2;
 
     $temp = substr($Hex, 4, 8);
-    $temp = MtprotoMethods::tryFrom($temp);
+    $temp = Methods::tryFrom($temp);
 
     $temp = 'MtpMethod_' . $temp->name;
     $temp = new $temp;
@@ -144,7 +130,7 @@ class MtprotoBasics{
    * @link https://core.tlgr.org/mtproto/samples-auth_key
    */
   protected function Send(string $Msg):int|false{
-    if($this->Transport === MtprotoTransport::Abridged):
+    if($this->Transport === Transport::Abridged):
       $count = strlen($Msg);
       if($count % 4 !== 0):
         exit('Size error');
@@ -153,7 +139,7 @@ class MtprotoBasics{
       $count = dechex($count);
       $count = self::SafeHex($count);
       $Msg = 'ef' . $count . $Msg;
-    elseif($this->Transport === MtprotoTransport::Intermediate):
+    elseif($this->Transport === Transport::Intermediate):
       $count = strlen($Msg);
       $count = dechex($count);
       $count = str_pad($count, 8, 0, STR_PAD_LEFT);

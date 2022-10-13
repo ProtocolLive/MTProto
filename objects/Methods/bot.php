@@ -1,9 +1,12 @@
 <?php
 //Protocol Corporation Ltda.
 //https://github.com/ProtocolLive
-//2022.05.28.00
+//2022.10.13.00
 
-class MtpMethod_BotImportAuth{
+namespace ProtocolLive\Mtproto\Methods;
+use ProtocolLive\Mtproto\Basics;
+
+class BotImportAuth{
   public readonly string $Flags;
   public readonly int $ApiId;
   public readonly string $ApiHash;
@@ -23,13 +26,13 @@ class MtpMethod_BotImportAuth{
 
     $temp = substr($Data, 0, 8);
     $Data = substr($Data, 8);
-    $temp = MtprotoBasics::InvertEndian($temp);
+    $temp = Basics::InvertEndian($temp);
     $this->ApiId = hexdec($temp);
 
     $temp = substr($Data, 0, 72);
-    $this->ApiHash = MtprotoBasics::StringDecode($temp);
+    $this->ApiHash = Basics::StringDecode($temp);
     $Data = substr($Data, 72);
 
-    $this->Token = MtprotoBasics::StringDecode($Data);
+    $this->Token = Basics::StringDecode($Data);
   }
 }
