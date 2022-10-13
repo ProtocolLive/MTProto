@@ -1,7 +1,7 @@
 <?php
 //Protocol Corporation Ltda.
 //https://github.com/ProtocolLive
-//2022.10.13.00
+//2022.10.13.01
 
 namespace ProtocolLive\Mtproto;
 
@@ -23,7 +23,7 @@ class Mtproto extends Basics{
     int $ApiId,
     string $ApiHash,
     string $Token
-  ){
+  ):void{
     $Payload = Methods::BotImportAuth->value;
     
     $Payload .= bin2hex(pack('l', $Flags));
@@ -46,8 +46,8 @@ class Mtproto extends Basics{
 
   public function PqMultiRequire(
     string $Nonce
-  ){
     $auth_key_id = str_repeat(0, 8);
+  ):void{
     $message_id = microtime(true) * pow(2, 32);
     $message_id = dechex($message_id);
     $message_id = $this->InvertEndian($message_id);
@@ -61,9 +61,8 @@ class Mtproto extends Basics{
     $this->Read();
   }
 
-
   /**
    * getUsers Vector int = Vector User
    */
-  public function UsersGet(){}
+  public function UsersGet():void{}
 }
