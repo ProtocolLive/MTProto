@@ -1,7 +1,7 @@
 <?php
 //Protocol Corporation Ltda.
 //https://github.com/ProtocolLive
-//2022.10.13.06
+//2022.10.14.00
 
 namespace ProtocolLive\Mtproto;
 
@@ -12,36 +12,6 @@ class Mtproto extends Basics{
     bool $Test = false
   ){
     parent::__construct($Transport, $Test);
-  }
-
-  /**
-   * auth.importBotAuthorization flags:int api_id:int api_hash:string bot_auth_token:string = auth.Authorization
-   * @link https://core.telegram.org/api/bots#login
-   */
-  public function BotImportAuth(
-    int $Flags,
-    int $ApiId,
-    string $ApiHash,
-    string $Token
-  ):void{
-    $Payload = Methods::BotImportAuth->value;
-    
-    $Payload .= bin2hex(pack('l', $Flags));
-
-    $ApiId = dechex($ApiId);
-    $ApiId = str_pad($ApiId, 8, 0, STR_PAD_LEFT);
-    $ApiId = $this->InvertEndian($ApiId);
-    $Payload .= $ApiId;
-
-    $Payload .= $this->StringEncode($ApiHash);
-    $Payload .= $this->StringEncode($Token);
-  
-    //$this->DebugHex($Payload);
-    $count = $this->Count($Payload, true, true) or exit('Wrong count');
-    $msg = 'ef' . $count . $Payload;
-    $this->PayloadParse($msg);
-    $this->Send($msg);
-    $this->Read();
   }
 
   public function PqRequire(
@@ -62,9 +32,4 @@ class Mtproto extends Basics{
     $this->Send($Payload);
     $this->Read();
   }
-
-  /**
-   * getUsers Vector int = Vector User
-   */
-  public function UsersGet():void{}
 }
