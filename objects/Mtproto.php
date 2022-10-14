@@ -1,7 +1,7 @@
 <?php
 //Protocol Corporation Ltda.
 //https://github.com/ProtocolLive
-//2022.10.14.00
+//2022.10.14.01
 
 namespace ProtocolLive\Mtproto;
 
@@ -23,7 +23,7 @@ class Mtproto extends Basics{
     $message_id = self::InvertEndian($message_id);
     $method = self::InvertEndian(Methods::PqRequire->value);
     $nonce = self::InvertEndian($Nonce);
-    $count = strlen($nonce) / 2;
+    $count = strlen($method . $nonce) / 2;
     $count = dechex($count);
     $count = str_pad($count, 8, 0, STR_PAD_LEFT);
     $count = self::InvertEndian($count);
