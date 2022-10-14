@@ -1,7 +1,7 @@
 <?php
 //Protocol Corporation Ltda.
 //https://github.com/ProtocolLive
-//2022.10.14.01
+//2022.10.14.02
 
 namespace ProtocolLive\Mtproto;
 
@@ -30,6 +30,5 @@ class Mtproto extends Basics{
 
     $Payload = $auth_key_id . $message_id . $count . $method . $nonce;
     $this->Send($Payload);
-    $this->Read();
   }
 }
