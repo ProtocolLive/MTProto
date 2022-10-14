@@ -1,7 +1,7 @@
 <?php
 //Protocol Corporation Ltda.
 //https://github.com/ProtocolLive
-//2022.10.14.02
+//2022.10.14.03
 
 namespace ProtocolLive\Mtproto;
 use \Exception;
@@ -156,7 +156,7 @@ class Basics{
       $key .= '5+bfo3Nhmcyvk5ftB0WkJ9z6bNZ7yxrP8wIDAQAB' . PHP_EOL;
       $key .= '-----END RSA PUBLIC KEY-----';
     endif;
-    openssl_public_encrypt($Msg, $Msg, $key);
+    //openssl_public_encrypt($Msg, $Msg, $key);
     return socket_write($this->Connection, $Msg, strlen($Msg));
   }
 
