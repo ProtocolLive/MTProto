@@ -1,7 +1,7 @@
 <?php
 //Protocol Corporation Ltda.
 //https://github.com/ProtocolLive
-//2022.10.14.01
+//2022.10.14.02
 
 namespace ProtocolLive\Mtproto;
 use \Exception;
@@ -119,7 +119,7 @@ class Basics{
    */
   protected function Send(string $Msg):int|false{
     if($this->Transport === Transport::Abridged):
-      $count = strlen($Msg);
+      $count = strlen($Msg) / 2;
       if($count % 4 !== 0):
         exit('Size error');
       endif;
