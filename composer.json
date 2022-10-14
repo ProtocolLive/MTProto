@@ -1,7 +1,22 @@
 {
+  "name": "protocollive/mtproto",
+  "description": "A library to easy handling with Telegram Mtproto protocol",
+  "type": "library",
+  "require": {
+      "php": ">=8.1",
+      "ext-openssl": "*",
+      "ext-sockets": "*"
+  },
+  "license": "MIT",
+  "authors": [
+      {
+          "name": "Protocol Corporation",
+          "email": "protocollive@outlook.com"
+      }
+  ],
   "autoload": {
-    "classmap": [
-        "Objects/"
-    ]
+      "classmap": [
+          "src/"
+      ]
   }
 }
