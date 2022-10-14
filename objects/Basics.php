@@ -1,7 +1,7 @@
 <?php
 //Protocol Corporation Ltda.
 //https://github.com/ProtocolLive
-//2022.10.13.04
+//2022.10.14.00
 
 namespace ProtocolLive\Mtproto;
 use \Exception;
@@ -32,7 +32,7 @@ class Basics{
     if($temp === false):
       throw new Exception(socket_strerror(socket_last_error()), socket_last_error());
     endif;
-    socket_set_option($this->Connection, SOL_SOCKET, SO_RCVTIMEO, ["sec" => 2, "usec" => 0]);
+    //socket_set_option($this->Connection, SOL_SOCKET, SO_RCVTIMEO, ['sec' => 5, 'usec' => 0]);
     //var_dump(file_get_contents('http://meuip.com/api/meuip.php'));
   }
 
