@@ -1,7 +1,7 @@
 <?php
 //Protocol Corporation Ltda.
 //https://github.com/ProtocolLive
-//2022.10.14.03
+//2022.10.15.00
 
 namespace ProtocolLive\Mtproto;
 use \Exception;
@@ -105,9 +105,13 @@ class Basics{
     echo $return . PHP_EOL;
   }
 
-  protected function Read():void{
+  protected function Read(
+    bool $Dump = false
+  ):void{
     $response = socket_read($this->Connection, 1024);
-    $this->HexDebug(bin2hex($response), 'Received:');
+    if($Dump):
+      $this->HexDebug(bin2hex($response), 'Received:');
+    endif;
     if($response[0] === chr(1)):
       $response = unpack('l', substr($response, 1));
       var_dump((~$response[1])+1);
@@ -117,7 +121,10 @@ class Basics{
   /**
    * @link https://core.tlgr.org/mtproto/samples-auth_key
    */
-  protected function Send(string $Msg):int|false{
+  protected function Send(
+    string $Msg,
+    bool $Dump = false
+  ):int|false{
     if($this->Transport === Transport::Abridged):
       $count = strlen($Msg) / 2;
       if($count % 4 !== 0):
@@ -134,7 +141,9 @@ class Basics{
       $count = self::InvertEndian($count);
       $Msg = Transport::Intermediate->value . $count . $Msg;
     endif;
-    $this->HexDebug($Msg, 'Sending:');
+    if($Dump):
+      $this->HexDebug($Msg, 'Sending:');
+    endif;
     $Msg = hex2bin($Msg);
     if($this->Test):
       $key = '-----BEGIN PUBLIC KEY-----' . PHP_EOL;
