@@ -96,4 +96,17 @@ trait Helper{
     endif;
     return $Hex;
   }
+
+  public static function StringEncode(string $Data):string{
+    $count = strlen($Data) / 2;
+    $count = dechex($count);
+    $count = self::SafeHex($count);
+    $Data = $count . $Data;
+    $Data = str_split($Data, 8);
+    foreach($Data as &$block):
+      $block = self::InvertEndian($block);
+      $block = str_pad($block, 8, 0, STR_PAD_LEFT);
+    endforeach;
+    return implode('', $Data);
+  }
 }
