@@ -1,13 +1,25 @@
 <?php
 //Protocol Corporation Ltda.
 //https://github.com/ProtocolLive
-//2022.10.15.01
+//2022.10.17.01
 
 namespace ProtocolLive\Mtproto;
 use GMP;
 use stdClass;
 
 trait Helper{
+  public function Factor(string $N):StdClass{
+    $N = hexdec($N);
+    $i = floor(sqrt($N));
+    while ($N % $i !== 0):
+      $i += 1;
+    endwhile;
+    $return = new stdClass;
+    $return->P = dechex($N / $i);
+    $return->Q = dechex($i);
+    return $return;
+  }
+
   public static function FactorWolfram(
     int|GMP $Number
   ):stdClass|null{
