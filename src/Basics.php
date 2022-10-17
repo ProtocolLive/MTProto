@@ -1,7 +1,7 @@
 <?php
 //Protocol Corporation Ltda.
 //https://github.com/ProtocolLive
-//2022.10.15.02
+//2022.10.17.00
 
 namespace ProtocolLive\Mtproto;
 use \Exception;
@@ -48,7 +48,7 @@ class Basics{
       $response = unpack('l', substr($response, 1));
       return TransportErrors::from($response);
     endif;
-    $response = substr($response, 1);
+    return substr($response, 1);
   }
 
   /**
