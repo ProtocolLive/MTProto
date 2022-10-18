@@ -1,7 +1,6 @@
 <?php
 //Protocol Corporation Ltda.
 //https://github.com/ProtocolLive
-//2022.10.18.01
 
 namespace ProtocolLive\Mtproto;
 
@@ -24,7 +23,8 @@ class Mtproto extends Basics{
     string $Nonce,
     bool $Dump = false
   ):void{
-    $auth_key_id = str_repeat(0, 16);
+    //https://core.tlgr.org/mtproto/samples-auth_key#1-request-for-pq-authorization
+    $auth_key_id = str_repeat(0, 8 * 2);
     $message_id = microtime(true) * pow(2, 32);
     $message_id = dechex($message_id);
     $message_id = self::InvertEndian($message_id);
