@@ -1,7 +1,7 @@
 <?php
 //Protocol Corporation Ltda.
 //https://github.com/ProtocolLive
-//2022.10.18.01
+//2022.10.18.02
 
 namespace ProtocolLive\Mtproto;
 use stdClass;
@@ -124,6 +124,37 @@ trait Helper{
     $Hex = str_split($Hex, 2);
     $Hex = array_reverse($Hex);
     return implode('', $Hex);
+  }
+
+  /**
+   * @link https://core.tlgr.org/mtproto/auth_key#presenting-proof-of-work-server-authentication
+   */
+  protected function RsaPad(
+    string $Data,
+    string $Pubkey
+  ):string|null{
+    $Data = hex2bin($Data);
+    $count = strlen($Data);
+    if($count > 144):
+      return null;
+    endif;
+    $n = gmp_init($this->Server::Pubkey_N, 16);
+    do{
+      $data_with_padding = $Data . random_bytes(192 - $count);
+      $data_pad_reversed = self::InvertEndian($data_with_padding);
+      $temp_key = random_bytes(32);
+      $data_with_hash = $data_pad_reversed . hash('sha256', $temp_key . $data_with_padding, true);
+      $aes_encrypted = self::Aes256Ige($data_with_hash, $temp_key);
+      $temp_key_xor = $temp_key ^ hash('sha256', $aes_encrypted, true);
+      $key_aes_encrypted = $temp_key_xor + $aes_encrypted;
+
+      $temp = bin2hex($temp_key_xor . $aes_encrypted);
+      $temp = gmp_init($temp, 16);
+    }while($temp >= $n);
+    openssl_public_encrypt($key_aes_encrypted, $encrypted_data, $Pubkey);
+    $return = new stdClass;
+    $return->DataWithHash = $data_with_hash;
+    $return->EncryptedData = $encrypted_data;
   }
 
   public static function SafeHex(string $Hex):string{
