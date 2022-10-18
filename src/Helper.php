@@ -1,14 +1,17 @@
 <?php
 //Protocol Corporation Ltda.
 //https://github.com/ProtocolLive
-//2022.10.17.01
+//2022.10.18.00
 
 namespace ProtocolLive\Mtproto;
-use GMP;
 use stdClass;
 
 trait Helper{
-  public function Factor(string $N):StdClass{
+  public function Factor(
+    string $N,
+    bool $Dump = false
+  ):StdClass{
+    $start = microtime(true);
     $N = hexdec($N);
     $i = floor(sqrt($N));
     while ($N % $i !== 0):
@@ -17,15 +20,18 @@ trait Helper{
     $return = new stdClass;
     $return->P = dechex($N / $i);
     $return->Q = dechex($i);
+    if($Dump):
+      echo 'Factor time: ' . microtime(true) - $start . PHP_EOL . PHP_EOL;
+    endif;
     return $return;
   }
 
   public static function FactorWolfram(
-    int|GMP $Number
+    string $Number,
+    bool $Dump = false
   ):stdClass|null{
-    if($Number instanceof GMP):
-      $Number = gmp_strval($Number, 10);
-    endif;
+    $start = microtime(true);
+    $Number = hexdec($Number);
     $code = file_get_contents('http://www.wolframalpha.com/api/v1/code');
     $code = json_decode($code, true);
     $code = $code['code'];
@@ -67,12 +73,10 @@ trait Helper{
       return null;
     endif;
     $return = new stdClass;
-    if($Number instanceof GMP):
-      $return->P = gmp_init($divs[0], 10);
-      $return->Q = gmp_init($divs[1], 10);
-    else:
-      $return->P = $divs[0];
-      $return->Q = $divs[1];
+    $return->P = self::SafeHex(dechex($divs[0]));
+    $return->Q = self::SafeHex(dechex($divs[1]));
+    if($Dump):
+      echo 'Factor time: ' . microtime(true) - $start . PHP_EOL . PHP_EOL;
     endif;
     return $return;
   }
