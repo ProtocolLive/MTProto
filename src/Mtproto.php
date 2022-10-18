@@ -1,14 +1,18 @@
 <?php
 //Protocol Corporation Ltda.
 //https://github.com/ProtocolLive
-//2022.10.18.00
+//2022.10.18.01
 
 namespace ProtocolLive\Mtproto;
 
+use Exception;
 use ProtocolLive\Mtproto\Servers\Servers;
 
 class Mtproto extends Basics{
 
+  /**
+   * @throws Exception
+   */
   public function __construct(
     Servers $Server,
     Transport $Transport = Transport::Abridged
