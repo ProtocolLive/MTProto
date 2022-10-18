@@ -1,7 +1,7 @@
 <?php
 //Protocol Corporation Ltda.
 //https://github.com/ProtocolLive
-//2022.10.18.00
+//2022.10.18.01
 
 namespace ProtocolLive\Mtproto;
 
@@ -19,7 +19,7 @@ class PqResponse{
    * @link https://core.tlgr.org/mtproto/samples-auth_key#response-decomposition-using-the-following-formula
    */
   public function __construct(string $Data){
-    //$Data = bin2hex($Data);
+    $Data = bin2hex($Data);
     $this->AuthKeyId = substr($Data, 0, 8 * 2);
     $this->MessageId = substr($Data, 8 * 2, 8 * 2);
     $count1 = substr($Data, 16 * 2, 4 * 2);
