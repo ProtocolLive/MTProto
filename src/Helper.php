@@ -1,12 +1,32 @@
 <?php
 //Protocol Corporation Ltda.
 //https://github.com/ProtocolLive
-//2022.10.18.00
+//2022.10.18.01
 
 namespace ProtocolLive\Mtproto;
 use stdClass;
 
 trait Helper{
+  private static function Aes256Ige(string $Data, string $Key):string{
+    $iv1 = $iv2 = str_repeat(chr(0), 16);
+    $cripted = '';
+    $count = strlen($Data);
+    for($i = 0; $i < $count; $i += 16):
+      $part = substr($Data, $i, 16);
+      $temp = openssl_encrypt(
+        $part ^ $iv1,
+        'aes-256-ecb',
+        $Key,
+        OPENSSL_RAW_DATA | OPENSSL_ZERO_PADDING
+      );
+      $temp ^= $iv2;
+      $cripted .= $temp;
+      $iv1 = $temp;
+      $iv2 = $part;
+    endfor;
+    return $cripted;
+  }
+
   public function Factor(
     string $N,
     bool $Dump = false
