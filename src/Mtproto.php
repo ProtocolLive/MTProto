@@ -1,17 +1,19 @@
 <?php
 //Protocol Corporation Ltda.
 //https://github.com/ProtocolLive
-//2022.10.15.00
+//2022.10.18.00
 
 namespace ProtocolLive\Mtproto;
+
+use ProtocolLive\Mtproto\Servers\Servers;
 
 class Mtproto extends Basics{
 
   public function __construct(
-    Transport $Transport = Transport::Abridged,
-    bool $Test = false
+    Servers $Server,
+    Transport $Transport = Transport::Abridged
   ){
-    parent::__construct($Transport, $Test);
+    parent::__construct($Server, $Transport);
   }
 
   public function PqRequire(
