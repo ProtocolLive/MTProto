@@ -1,7 +1,7 @@
 <?php
 //Protocol Corporation Ltda.
 //https://github.com/ProtocolLive
-//2022.10.18.00
+//2022.10.18.01
 
 namespace ProtocolLive\Mtproto;
 use \Exception;
@@ -36,7 +36,7 @@ class Basics{
   ):string|TransportErrors{
     $response = socket_read($this->Connection, 1024);
     if($Dump):
-      $this->HexDebug(bin2hex($response), 'Received:');
+      self::HexDebug(bin2hex($response), 'Received:');
     endif;
     if($response[0] === chr(1)):
       $response = unpack('l', substr($response, 1));
@@ -69,7 +69,7 @@ class Basics{
       $Msg = Transport::Intermediate->value . $count . $Msg;
     endif;
     if($Dump):
-      $this->HexDebug($Msg, 'Sending:');
+      self::HexDebug($Msg, 'Sending:');
     endif;
     $Msg = hex2bin($Msg);
     return socket_write($this->Connection, $Msg, strlen($Msg));
