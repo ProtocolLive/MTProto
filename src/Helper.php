@@ -1,9 +1,10 @@
 <?php
 //Protocol Corporation Ltda.
 //https://github.com/ProtocolLive
-//2022.10.18.05
+//2022.10.18.06
 
 namespace ProtocolLive\Mtproto;
+use ProtocolLive\Mtproto\Servers\Servers;
 use stdClass;
 
 trait Helper{
@@ -131,7 +132,7 @@ trait Helper{
    */
   protected function RsaPad(
     string $Data,
-    string $Pubkey
+    Servers $Server
   ):stdClass|null{
     $Data = hex2bin($Data);
     $count = strlen($Data);
@@ -148,13 +149,19 @@ trait Helper{
       $temp_key_xor = $temp_key ^ hash('sha256', $aes_encrypted, true);
       $key_aes_encrypted = $temp_key_xor . $aes_encrypted;
 
-      $temp = bin2hex($temp_key_xor . $aes_encrypted);
-      $temp = gmp_init($temp, 16);
+      $temp = gmp_import($temp_key_xor . $aes_encrypted);
     }while($temp >= $n);
-    openssl_public_encrypt($key_aes_encrypted, $encrypted_data, $Pubkey);
+    $temp = gmp_powm(
+      gmp_import($key_aes_encrypted),
+      gmp_init($Server->Class()::Pubkey_E, 16),
+      gmp_init($Server->Class()::Pubkey_N, 16)
+    );
+    $temp = gmp_strval($temp, 16);
+    $encrypted_data = str_pad($temp, 512, 0, STR_PAD_LEFT);
     $return = new stdClass;
-    $return->DataWithHash = $data_with_hash;
+    $return->DataWithHash = bin2hex($data_with_hash);
     $return->EncryptedData = $encrypted_data;
+    return $return;
   }
 
   public static function SafeHex(string $Hex):string{
