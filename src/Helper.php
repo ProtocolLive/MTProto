@@ -1,7 +1,7 @@
 <?php
 //Protocol Corporation Ltda.
 //https://github.com/ProtocolLive
-//2022.10.18.06
+//2022.10.19.00
 
 namespace ProtocolLive\Mtproto;
 use ProtocolLive\Mtproto\Servers\Servers;
@@ -107,18 +107,15 @@ trait Helper{
     string $Msg = null
   ):void{
     $Hex = str_split($Hex, 16 * 2);
+    echo $Msg . PHP_EOL;
+    echo '    | 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F' . PHP_EOL;
+    echo '----+------------------------------------------------' . PHP_EOL;
     foreach($Hex as $id => &$n):
+      echo str_pad(strtoupper(dechex($id * 16)), 3, 0, STR_PAD_LEFT) . ' | ';
       $n = str_split($n, 2);
-      $n = str_pad(dechex($id * 16), 2, 0, STR_PAD_LEFT) .
-      ' | ' . implode(' ', $n);
+      echo implode(' ', $n) . PHP_EOL;
     endforeach;
-    $Hex = implode(PHP_EOL, $Hex);
-    echo $Msg . PHP_EOL .
-      '   | 00 01 02 03 04 05 06 07 08 09 0a 0b 0c 0d 0e 0f' .
-      PHP_EOL .
-      '---+------------------------------------------------' .
-      PHP_EOL .
-      $Hex . PHP_EOL . PHP_EOL;
+    echo PHP_EOL;
   }
 
   public static function InvertEndian(string $Hex):string{
