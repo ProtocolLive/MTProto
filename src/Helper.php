@@ -1,7 +1,7 @@
 <?php
 //Protocol Corporation Ltda.
 //https://github.com/ProtocolLive
-//2022.10.18.02
+//2022.10.18.03
 
 namespace ProtocolLive\Mtproto;
 use stdClass;
@@ -132,7 +132,7 @@ trait Helper{
   protected function RsaPad(
     string $Data,
     string $Pubkey
-  ):string|null{
+  ):stdClass|null{
     $Data = hex2bin($Data);
     $count = strlen($Data);
     if($count > 144):
