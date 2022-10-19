@@ -1,7 +1,7 @@
 <?php
 //Protocol Corporation Ltda.
 //https://github.com/ProtocolLive
-//2022.10.18.03
+//2022.10.18.04
 
 namespace ProtocolLive\Mtproto;
 use stdClass;
@@ -138,7 +138,7 @@ trait Helper{
     if($count > 144):
       return null;
     endif;
-    $n = gmp_init($this->Server::Pubkey_N, 16);
+    $n = gmp_init($this->Server->Class()::Pubkey_N, 16);
     do{
       $data_with_padding = $Data . random_bytes(192 - $count);
       $data_pad_reversed = self::InvertEndian($data_with_padding);
