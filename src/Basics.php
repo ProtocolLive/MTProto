@@ -1,7 +1,7 @@
 <?php
 //Protocol Corporation Ltda.
 //https://github.com/ProtocolLive
-//2022.10.18.01
+//2022.10.18.02
 
 namespace ProtocolLive\Mtproto;
 use \Exception;
@@ -16,7 +16,7 @@ class Basics{
    * @throws Exception
    */
   public function __construct(
-    private Servers $Server,
+    protected Servers $Server,
     private Transport $Transport = Transport::Abridged
   ){
     $temp = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
