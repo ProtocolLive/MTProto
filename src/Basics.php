@@ -1,7 +1,7 @@
 <?php
 //Protocol Corporation Ltda.
 //https://github.com/ProtocolLive
-//2022.10.19.00
+//2022.10.19.01
 
 namespace ProtocolLive\Mtproto;
 use \Exception;
@@ -33,10 +33,13 @@ class Basics{
 
   protected function Read(
     string $Dump = null
-  ):string|TransportErrors{
+  ):string|TransportErrors|null{
     $response = socket_read($this->Connection, 1024);
     if($Dump !== null):
       self::HexDebug(bin2hex($response), 'Received ' . $Dump);
+    endif;
+    if($response == ''):
+      return null;
     endif;
     if($response[0] === chr(1)):
       $response = unpack('l', substr($response, 1));
