@@ -1,7 +1,7 @@
 <?php
 //Protocol Corporation Ltda.
 //https://github.com/ProtocolLive
-//2022.10.18.04
+//2022.10.18.05
 
 namespace ProtocolLive\Mtproto;
 use stdClass;
@@ -146,7 +146,7 @@ trait Helper{
       $data_with_hash = $data_pad_reversed . hash('sha256', $temp_key . $data_with_padding, true);
       $aes_encrypted = self::Aes256Ige($data_with_hash, $temp_key);
       $temp_key_xor = $temp_key ^ hash('sha256', $aes_encrypted, true);
-      $key_aes_encrypted = $temp_key_xor + $aes_encrypted;
+      $key_aes_encrypted = $temp_key_xor . $aes_encrypted;
 
       $temp = bin2hex($temp_key_xor . $aes_encrypted);
       $temp = gmp_init($temp, 16);
