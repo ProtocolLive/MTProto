@@ -1,7 +1,7 @@
 <?php
 //Protocol Corporation Ltda.
 //https://github.com/ProtocolLive
-//2022.10.18.02
+//2022.10.19.00
 
 namespace ProtocolLive\Mtproto;
 use \Exception;
@@ -32,11 +32,11 @@ class Basics{
   }
 
   protected function Read(
-    bool $Dump = false
+    string $Dump = null
   ):string|TransportErrors{
     $response = socket_read($this->Connection, 1024);
-    if($Dump):
-      self::HexDebug(bin2hex($response), 'Received:');
+    if($Dump !== null):
+      self::HexDebug(bin2hex($response), 'Received ' . $Dump);
     endif;
     if($response[0] === chr(1)):
       $response = unpack('l', substr($response, 1));
@@ -50,7 +50,7 @@ class Basics{
    */
   protected function Send(
     string $Msg,
-    bool $Dump = false
+    string $Dump = null
   ):int|false{
     if($this->Transport === Transport::Abridged):
       $count = strlen($Msg) / 2;
@@ -68,8 +68,8 @@ class Basics{
       $count = self::InvertEndian($count);
       $Msg = Transport::Intermediate->value . $count . $Msg;
     endif;
-    if($Dump):
-      self::HexDebug($Msg, 'Sending:');
+    if($Dump !== null):
+      self::HexDebug($Msg, 'Sending ' . $Dump);
     endif;
     $Msg = hex2bin($Msg);
     return socket_write($this->Connection, $Msg, strlen($Msg));
